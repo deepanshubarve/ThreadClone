@@ -31,6 +31,7 @@ fun Splash(navController: NavHostController){
     LaunchedEffect(true) {
         delay(3000)
 
+
         navController.navigate(Routes.BottomNav.routes)
     }
 }
