@@ -12,8 +12,10 @@ import com.example.threadclone.screens.BottomNav
 import com.example.threadclone.screens.Home
 import com.example.threadclone.screens.Notifications
 import com.example.threadclone.screens.Profile
+import com.example.threadclone.screens.Register
 import com.example.threadclone.screens.Search
 import com.example.threadclone.screens.Splash
+import com.example.threadclone.screens.login
 
 @Composable
 fun NavGraph(navController: NavHostController){
@@ -41,6 +43,14 @@ fun NavGraph(navController: NavHostController){
         }
         composable(Routes.BottomNav.routes){
             BottomNav(navController)
+        }
+
+        composable(Routes.Login.routes){
+            login(navController)
+        }
+
+        composable(Routes.Register.routes){
+            Register(navController)
         }
 
     }
