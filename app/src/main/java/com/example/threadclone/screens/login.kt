@@ -37,9 +37,11 @@ fun login(navController: NavHostController){
  var email by remember {
      mutableStateOf(" ")
  }
+
     var password by remember {
         mutableStateOf(" ")
     }
+
     Column(modifier = androidx.compose.ui.Modifier
         .fillMaxSize()
         .padding(24.dp),
@@ -69,7 +71,9 @@ fun login(navController: NavHostController){
 
         Box(modifier = androidx.compose.ui.Modifier.height(50.dp))
 
-        ElevatedButton(onClick = { /*TODO*/ }, modifier = androidx.compose.ui.Modifier.fillMaxWidth()) {
+        ElevatedButton(onClick = {
+
+        }, modifier = androidx.compose.ui.Modifier.fillMaxWidth()) {
             Text(text = "Login", style = TextStyle(fontWeight = FontWeight.ExtraBold,
                 fontSize = 20.sp), modifier = androidx.compose.ui.Modifier.padding(vertical = 8.dp))
 
@@ -77,20 +81,21 @@ fun login(navController: NavHostController){
         }
         TextButton(onClick = {
 
-            navController.navigate(Routes.Register.routes){
+            navController.navigate(Routes.Register.routes) {
                 popUpTo(navController.graph.startDestinationId)
-                launchSingleTop =true
+                launchSingleTop = true
             }
+
         }, modifier = androidx.compose.ui.Modifier.fillMaxWidth()) {
             Text(text = "New User? creat your account", style = TextStyle(fontWeight = FontWeight.Bold,
                 fontSize = 15.sp))
 
 
         }
-    }
+        }
 }
 @Preview(showBackground = true)
 @Composable
 fun LoginView (){
-    //login()
+    //login(navController)
 }

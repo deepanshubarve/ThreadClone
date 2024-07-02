@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -71,11 +73,15 @@ dependencies {
     implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.4")
     implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha13")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+
+
+    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-database")
+    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.6.8")
 
 }

@@ -12,9 +12,17 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgs
 import com.example.threadclone.navigation.NavGraph
 import com.example.threadclone.ui.theme.ThreadCloneTheme
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.database.core.Context
 
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContent {
             ThreadCloneTheme {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "233269169478",
+    "project_id": "threadyt-e280f",
+    "storage_bucket": "threadyt-e280f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233269169478:android:7edd869256eeef40f46947",
+        "android_client_info": {
+          "package_name": "com.example.threadclone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt-jcv1dJIokxTo-x25AQjd6wnmS7Ud18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

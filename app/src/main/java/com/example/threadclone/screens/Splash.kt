@@ -12,14 +12,22 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.threadclone.R
 import com.example.threadclone.navigation.Routes
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.getInstance
+import com.google.firebase.auth.auth
+import com.google.firebase.database.core.Context
+import com.google.firebase.initialize
 import kotlinx.coroutines.delay
-import java.lang.reflect.Modifier
+
 
 @Composable
 fun Splash(navController: NavHostController) {
 
     ConstraintLayout {
+
         val (image) = createRefs()
         Image(painter = painterResource(id = R.drawable.thread), contentDescription = "Thread",
             modifier = androidx.compose.ui.Modifier.constrainAs(image) {
@@ -35,15 +43,15 @@ fun Splash(navController: NavHostController) {
     LaunchedEffect(true) {
         delay(3000)
 
-        if (FirebaseAuth.getInstance().currentUser != null)
-            navController.navigate(Routes.BottomNav.routes){
-                popUpTo(navController.graph.startDestinationId)
-                launchSingleTop =true
-            }
-        else
+            if (getInstance().currentUser != null) {
+           navController.navigate(Routes.BottomNav.routes){
+               popUpTo(navController.graph.startDestinationId)
+               launchSingleTop = true
+           }
+            } else
             navController.navigate(Routes.Login.routes){
                 popUpTo(navController.graph.startDestinationId)
-                launchSingleTop =true
+                launchSingleTop = true
             }
     }
 
