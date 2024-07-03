@@ -96,7 +96,7 @@ fun Register(navHostController: NavHostController){
         isGranted : Boolean ->
         if (isGranted){
 
-        }else{
+        }else {
 
         }
     }
