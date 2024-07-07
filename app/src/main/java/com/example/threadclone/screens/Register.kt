@@ -76,6 +76,11 @@ fun Register(navHostController: NavHostController){
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
     }
+
+    val permissionToRequest = if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.UPSIDE_DOWN_CAKE){
+        android.Manifest.permission.READ_MEDIA_IMAGES
+    }else
+        android.Manifest.permission.READ_EXTERNAL_STORAGE
     
     val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
         uri: Uri? ->
@@ -87,16 +92,13 @@ fun Register(navHostController: NavHostController){
 
     val context  = LocalContext.current
 
-    val permissionToRequest = if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.TIRAMISU){
-        android.Manifest.permission.READ_MEDIA_IMAGES
-    }else
-        android.Manifest.permission.READ_EXTERNAL_STORAGE
+
 
     val permissionLauncher = rememberLauncherForActivityResult(contract =ActivityResultContracts.RequestPermission()) {
         isGranted : Boolean ->
         if (isGranted){
 
-        }else {
+        }else  {
 
         }
     }
