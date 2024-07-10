@@ -59,7 +59,7 @@ fun AddThreads(){
         }
         )
 
-       /* Image(painter = rememberAsyncImagePainter(model = SharedPref.getImage(context)),
+        Image(painter = rememberAsyncImagePainter(model = SharedPref.getImage(context)),
             contentDescription = "userImage",
             modifier = Modifier.constrainAs(logo){
                 top.linkTo(text.bottom)
@@ -72,12 +72,12 @@ fun AddThreads(){
             start.linkTo(logo.end, margin = 10.dp)
             bottom.linkTo(logo.bottom)
         }
-        )*/
+        )
 
         BasicTextFieldWithHint(hint = "Write a thread..", value = thread, onValueChange = {thread = it}, modifier =
         Modifier.constrainAs(editText){
-            top.linkTo(text.bottom)
-            start.linkTo(text.start)
+            top.linkTo(userName.bottom)
+            start.linkTo(userName.start)
             end.linkTo(parent.end)
         }.padding(horizontal = 8.dp, vertical = 8.dp))
 
@@ -94,9 +94,6 @@ fun BasicTextFieldWithHint(hint: String, value: String,onValueChange : (String)-
           textStyle = TextStyle.Default.copy(color = Color.Black),
           modifier = Modifier.fillMaxWidth())
     }
-
-
-
 }
 
 @Preview(showBackground = true)
