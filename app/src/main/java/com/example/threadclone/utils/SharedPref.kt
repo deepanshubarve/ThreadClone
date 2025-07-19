@@ -1,6 +1,8 @@
 package com.example.threadclone.utils
 
 import android.content.Context.MODE_PRIVATE
+import com.google.firebase.database.core.Context
+import androidx.core.content.edit
 
 object SharedPref {
     fun storeData(
@@ -12,14 +14,15 @@ object SharedPref {
         context: android.content.Context
     ){
         val sharedPreferences =  context.getSharedPreferences("users",MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
+        sharedPreferences.edit {
 
-        editor.putString("name",name)
-        editor.putString("email",email)
-        editor.putString("username",username)
-        editor.putString("bio",bio)
-        editor.putString("imageUrl",imageUrl)
-        editor.apply()
+            putString("name", name)
+            putString("email", email)
+            putString("username", username)
+            putString("bio", bio)
+            putString("imageUrl", imageUrl)
+            apply()
+        }
 
     }
 

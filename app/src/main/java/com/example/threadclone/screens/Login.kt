@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -54,15 +53,15 @@ fun login(navController: NavHostController){
     val context = LocalContext.current
 
     error?.let {
-        Toast.makeText(context," somthing went wrong", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context,"Something went wrong", Toast.LENGTH_SHORT).show()
     }
 
  var email by remember {
-     mutableStateOf(" ")
+     mutableStateOf("")
  }
 
     var password by remember {
-        mutableStateOf(" ")
+        mutableStateOf("")
     }
 
 
@@ -100,14 +99,12 @@ fun login(navController: NavHostController){
                   if(email.isEmpty() || password.isEmpty()){
                       Toast.makeText(context, "Please provide all fields", Toast.LENGTH_SHORT).show()
                   }else {
-                      authViewModel.login(email, password, context)
+                      authViewModel.login(email.trim(), password, context)
                   }
 
         }, modifier = androidx.compose.ui.Modifier.fillMaxWidth()) {
             Text(text = "Login", style = TextStyle(fontWeight = FontWeight.ExtraBold,
                 fontSize = 20.sp), modifier = androidx.compose.ui.Modifier.padding(vertical = 8.dp))
-
-
         }
         TextButton(onClick = {
 
@@ -124,7 +121,7 @@ fun login(navController: NavHostController){
         }
         }
 }
-@Preview(showBackground = true)
+
 @Composable
 fun LoginView (){
     //login(navController)

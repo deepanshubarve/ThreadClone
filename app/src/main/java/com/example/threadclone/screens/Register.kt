@@ -56,21 +56,21 @@ import com.example.threadclone.viewmodel.AuthViewModel
 @Composable
 fun Register(navHostController: NavHostController){
 
- var email by remember {
-     mutableStateOf(" ")
- }
+    var email by remember {
+     mutableStateOf("")
+    }
 
     var password by remember {
-        mutableStateOf(" ")
+        mutableStateOf("")
     }
     var name by remember {
-        mutableStateOf(" ")
+        mutableStateOf("")
     }
     var username by remember {
-        mutableStateOf(" ")
+        mutableStateOf("")
     }
     var bio by remember {
-        mutableStateOf(" ")
+        mutableStateOf("")
     }
 
     var imageUri by remember {
@@ -81,10 +81,19 @@ fun Register(navHostController: NavHostController){
         android.Manifest.permission.READ_MEDIA_IMAGES
     }else
         android.Manifest.permission.READ_EXTERNAL_STORAGE
-    
+
     val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) {
-        uri: Uri? ->
+            uri: Uri? ->
         imageUri= uri
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(contract =ActivityResultContracts.RequestPermission()) {
+            isGranted : Boolean ->
+        if (isGranted){
+
+        }else  {
+
+        }
     }
 
     val authViewModel : AuthViewModel = viewModel ()
@@ -92,17 +101,6 @@ fun Register(navHostController: NavHostController){
 
     val context  = LocalContext.current
 
-
-
-    val permissionLauncher = rememberLauncherForActivityResult(contract =ActivityResultContracts.RequestPermission()) {
-        isGranted : Boolean ->
-        if (isGranted){
-
-        }else  {
-
-        }
-    }
-    
     LaunchedEffect(firebaseUser) {
         if (firebaseUser != null) {
             navHostController.navigate(Routes.BottomNav.routes) {
@@ -181,7 +179,6 @@ fun Register(navHostController: NavHostController){
             modifier = androidx.compose.ui.Modifier.fillMaxWidth())
 
 
-
         OutlinedTextField(value = password, onValueChange = {password = it}, label = {
             Text(text = "Password")
         }, keyboardOptions = KeyboardOptions(
@@ -197,7 +194,7 @@ fun Register(navHostController: NavHostController){
                 username.isEmpty()||password.isEmpty()|| imageUri == null){
                 Toast.makeText(context,"please fill all details",Toast.LENGTH_SHORT).show()
             }else{
-                authViewModel.register(email, password, name, bio, username,
+                authViewModel.register(email.trim(), password, name, bio, username,
                     imageUri!!, context)
                                  }
 

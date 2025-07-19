@@ -27,16 +27,16 @@ fun NavGraph(navController: NavHostController){
             Splash(navController)
         }
         composable(Routes.Home.routes){
-            Home()
+            Home(navController)
         }
         composable(Routes.Notification.routes){
             Notifications()
         }
         composable(Routes.Search.routes){
-            Search()
+            Search(navController)
         }
         composable(Routes.AddThreads.routes){
-            AddThreads()
+            AddThreads(navController)
         }
         composable(Routes.Profile.routes){
             Profile(navController)

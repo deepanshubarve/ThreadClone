@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -68,11 +69,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
     val nav_version = "2.7.7"
     implementation("androidx.navigation:navigation-compose:$nav_version")
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.4")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha13")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
+
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.1.1")
+    implementation("androidx.constraintlayout:constraintlayout-compose-android:1.1.1")
+    implementation("androidx.constraintlayout:constraintlayout-core:1.1.1")
 
 
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
@@ -83,5 +86,6 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation ("androidx.compose.runtime:runtime-livedata:1.6.8")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
 
 }

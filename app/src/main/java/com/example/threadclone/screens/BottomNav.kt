@@ -38,22 +38,22 @@ fun BottomNav(navController: NavHostController){
    Scaffold (bottomBar = {MyBottombar(navController1)}){innerPadding ->
        NavHost(navController = navController1, startDestination = Routes.Home.routes,
        modifier = Modifier.padding(innerPadding)){
+
            composable(Routes.Home.routes){
-               Home()
+               Home(navController)
            }
            composable(Routes.Notification.routes){
                Notifications()
            }
-           composable(Routes.Search.routes){
-               Search()
-           }
            composable(Routes.AddThreads.routes){
-               AddThreads()
+               AddThreads(navController)
+           }
+           composable(Routes.Search.routes){
+               Search(navController)
            }
            composable(Routes.Profile.routes){
                Profile(navController)
            }
-
        }
    }
 }
@@ -74,15 +74,16 @@ fun MyBottombar(navController1: NavHostController){
             Routes.Search.routes,
             Icons.Rounded.Search
         ),
-        BottomNavItems(
-            "Notification",
-            Routes.Notification.routes,
-            Icons.Rounded.Notifications
-        ),
+
         BottomNavItems(
             "Add Threads",
             Routes.AddThreads.routes,
             Icons.Rounded.Add
+        ),
+        BottomNavItems(
+            "Notification",
+            Routes.Notification.routes,
+            Icons.Rounded.Notifications
         ),
         BottomNavItems(
             "Profile",
@@ -94,7 +95,7 @@ fun MyBottombar(navController1: NavHostController){
     BottomAppBar {
         list.forEach{
 
-            val selected = it.route == backStackEntry?.value?.destination?.route
+            val selected = it.route == backStackEntry.value?.destination?.route
 
             NavigationBarItem(selected = selected, onClick = {
                 navController1.navigate(it.route){

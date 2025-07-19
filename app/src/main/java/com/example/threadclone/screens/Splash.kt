@@ -25,9 +25,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun Splash(navController: NavHostController) {
-
     ConstraintLayout {
-
         val (image) = createRefs()
         Image(painter = painterResource(id = R.drawable.thread), contentDescription = "Thread",
             modifier = androidx.compose.ui.Modifier.constrainAs(image) {
@@ -43,7 +41,7 @@ fun Splash(navController: NavHostController) {
     LaunchedEffect(true) {
         delay(3000)
 
-            if (getInstance().currentUser != null) {
+            if (getInstance().currentUser != null){
            navController.navigate(Routes.BottomNav.routes){
                popUpTo(navController.graph.startDestinationId)
                launchSingleTop = true

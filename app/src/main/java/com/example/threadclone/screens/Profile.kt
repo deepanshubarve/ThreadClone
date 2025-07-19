@@ -31,5 +31,6 @@ fun Profile(navHostController:NavHostController){
     Text(text = "Profile", modifier = Modifier.clickable {
      authViewModel.logout()
 
+
     })
 }

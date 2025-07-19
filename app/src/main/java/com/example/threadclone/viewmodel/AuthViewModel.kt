@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.threadclone.model.userModel
+import com.example.threadclone.model.UserModel
 import com.example.threadclone.utils.SharedPref
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -23,8 +23,8 @@ class AuthViewModel : ViewModel() {
     private val db = FirebaseDatabase.getInstance()
     val userRef = db.getReference("users")
 
-    private val _firebaseUser = MutableLiveData<FirebaseUser>()
-    val firebaseUser : LiveData<FirebaseUser> = _firebaseUser
+    private val _firebaseUser = MutableLiveData<FirebaseUser?>()
+    val firebaseUser : MutableLiveData<FirebaseUser?> = _firebaseUser
 
     private val _error = MutableLiveData<String>()
     val error : LiveData<String> = _error
@@ -52,11 +52,9 @@ class AuthViewModel : ViewModel() {
     private fun getData(uid: String,context:Context) {
           userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener{
               override fun onDataChange(snapshot: DataSnapshot) {
-                val userData = snapshot.getValue(userModel :: class.java)
-                  SharedPref.storeData(userData!!.name,userData!!.email,userData!!.username,
-                      userData!!.bio,userData!!.password,context)
-              }
-
+               val userData = snapshot.getValue(UserModel::class.java)
+                  SharedPref.storeData(userData!!.name,userData!!.email,userData!!.username,userData!!.bio,
+                      userData.toString(),context)}
 
               override fun onCancelled(error: DatabaseError) {
 
@@ -74,6 +72,7 @@ class AuthViewModel : ViewModel() {
         imageUri: Uri,
         context: Context
     ){
+
         auth.createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener{
                 if (it.isSuccessful){
@@ -108,9 +107,9 @@ class AuthViewModel : ViewModel() {
     ) {
 
 
-        val userData = userModel(name, username, email, password, bio, toString,uid!!)
+        val userData = UserModel(name, username, email, password, bio, toString,uid!!)
 
-        userRef.child(uid).setValue(userData)
+        userRef.child(uid!!).setValue(userData)
             .addOnSuccessListener {
 
             SharedPref.storeData(name,email,username,bio,password,context   )
@@ -124,4 +123,6 @@ class AuthViewModel : ViewModel() {
         auth.signOut()
         _firebaseUser.postValue(null)
     }
+
+
 }
