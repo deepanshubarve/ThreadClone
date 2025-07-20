@@ -2,9 +2,11 @@ package com.example.threadclone.screens
 
 import android.app.appsearch.AppSearchManager.SearchContext
 import android.widget.SearchView
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -65,15 +67,17 @@ fun Search(navHostController: NavHostController) {
         }, keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text
         ), singleLine = true,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             leadingIcon = {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon")
             })
 
+        Box(modifier = Modifier.height(20.dp))
+
         LazyColumn {
 
-            if(userList != null && userList!!.isEmpty()){
-            val filterItems = userList!!.filter{it.username.contains(search, ignoreCase = true)}
+            if(userList != null && userList!!.isNotEmpty()){
+            val filterItems = userList!!.filter{it.name!!.contains(search, ignoreCase = true)}
 
             items(filterItems) { Pair ->
                 SearchItem(Pair, navHostController)
