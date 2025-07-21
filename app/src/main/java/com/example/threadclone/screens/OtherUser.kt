@@ -36,7 +36,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
-fun OtherUsers(navHostController: NavHostController){
+fun OtherUsers(navHostController: NavHostController,uid : String){
 
 
     val authViewModel : AuthViewModel = viewModel()
@@ -47,14 +47,20 @@ fun OtherUsers(navHostController: NavHostController){
 
     val userViewModel : UserViewModel = viewModel()
     val threads by userViewModel.threads.observeAsState(null)
+    val users by userViewModel.users.observeAsState(null)
+    val followerList by userViewModel.followerList.observeAsState(null)
+    val followingList by userViewModel.followingList.observeAsState(null)
 
-    val user = UserModel(
-        name = SharedPref.getName(context),
-        username = SharedPref.getUserName(context),
-        imageUrl = SharedPref.getImage(context)
-    )
+    var currentUserId = ""
+    if(FirebaseAuth.getInstance().currentUser != null){
+        currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
+    }
 
-    userViewModel.fetchThreads(FirebaseAuth.getInstance().currentUser!!.uid)
+
+    userViewModel.fetchThreads(uid)
+    userViewModel.fetchUsers(uid)
+    userViewModel.getFollowers(uid)
+    userViewModel.getFollowing(uid)
 
     LaunchedEffect(firebaseUser) {
         if (firebaseUser == null) {
@@ -76,7 +82,7 @@ fun OtherUsers(navHostController: NavHostController){
                     replyText,button) = createRefs()
 
 
-                Text(text = SharedPref.getName(context), style = TextStyle(fontWeight = FontWeight.ExtraBold,
+                Text(text = users!!.name, style = TextStyle(fontWeight = FontWeight.ExtraBold,
                     fontSize = 24.sp), modifier = Modifier.constrainAs(text){
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
@@ -84,7 +90,7 @@ fun OtherUsers(navHostController: NavHostController){
                 )
 
                 Image(
-                    painter = rememberAsyncImagePainter(model = SharedPref.getImage(context)),
+                    painter = rememberAsyncImagePainter(model = users!!.imageUrl),
                     contentDescription = "userImage",
                     modifier = Modifier.constrainAs(logo) {
                         top.linkTo(parent.top)
@@ -92,50 +98,60 @@ fun OtherUsers(navHostController: NavHostController){
                     }.size(120.dp).clip(CircleShape), contentScale = ContentScale.Crop
                 )
 
-                Text(text = SharedPref.getUserName(context), style = TextStyle(fontWeight = FontWeight.ExtraBold,
+                Text(text = users!!.username, style = TextStyle(fontWeight = FontWeight.ExtraBold,
                     fontSize = 24.sp), modifier = Modifier.constrainAs(userName){
                     top.linkTo(text.bottom)
                     start.linkTo(parent.start)
                 }
                 )
 
-                Text(text = SharedPref.getBio(context), style = TextStyle(fontWeight = FontWeight.Normal,
+                Text(text =users!!.bio, style = TextStyle(fontWeight = FontWeight.Normal,
                     fontSize = 24.sp), modifier = Modifier.constrainAs(Bio){
                     top.linkTo(userName.bottom)
                     start.linkTo(parent.start)
                 }
                 )
 
-                Text(text = "0 followers", style = TextStyle(fontWeight = FontWeight.Normal,
+                Text(text = "${followerList?.size} Followers", style = TextStyle(fontWeight = FontWeight.Normal,
                     fontSize = 24.sp), modifier = Modifier.constrainAs(followers){
                     top.linkTo(Bio.bottom)
                     start.linkTo(parent.start)
                 }
                 )
 
-                Text(text = "0 following", style = TextStyle(fontWeight = FontWeight.Normal,
+                Text(text = "${followingList?.size} Following", style = TextStyle(fontWeight = FontWeight.Normal,
                     fontSize = 24.sp), modifier = Modifier.constrainAs(following){
                     top.linkTo(followers.bottom)
                     start.linkTo(parent.start)
                 }
                 )
 
-                ElevatedButton(onClick = { authViewModel.logout() },
+                ElevatedButton(onClick = {
+                    if(currentUserId != ""){
+                        userViewModel.followUser(uid, currentUserId)
+                    }
+
+                },
                     modifier = Modifier.constrainAs(button){
                         top.linkTo(following.bottom)
                         start.linkTo(parent.start)
                     }) {
-                    Text("Logout")
+                    Text( text =if( followerList!=null && followerList!!.isNotEmpty() && followerList!!.contains(currentUserId)
+                        ) "Following" else "Follow")
                 }
 
             }
         }
-        items(threads ?: emptyList()){ pair->
 
-            ThreadItem(thread = pair,
-                users= user,
-                navHostController = navHostController,
-                userId = SharedPref.getUserName(context))
+        if(users != null && threads != null) {
+            items(threads ?: emptyList()) { pair ->
+                ThreadItem(
+                    thread = pair,
+                    users = users!!,
+                    navHostController = navHostController,
+                    userId = SharedPref.getUserName(context)
+                )
+            }
         }
     }
 }

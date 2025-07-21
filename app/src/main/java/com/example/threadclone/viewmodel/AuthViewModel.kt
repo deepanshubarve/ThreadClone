@@ -14,6 +14,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import java.util.UUID
 
@@ -50,6 +52,7 @@ class AuthViewModel : ViewModel() {
     }
 
     private fun getData(uid: String,context:Context) {
+
           userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener{
               override fun onDataChange(snapshot: DataSnapshot) {
                val userData = snapshot.getValue(UserModel::class.java)
@@ -101,18 +104,25 @@ class AuthViewModel : ViewModel() {
         email: String,
         password: String,
         bio: String,
-        toString: String,
+        imageUrl: String,
         uid: String?,
         context: Context
     ) {
 
+        val fireStoreDb = Firebase.firestore
+        val followersRef = fireStoreDb.collection("followers").document(uid!!)
+        val followingRef = fireStoreDb.collection("following").document(uid!!)
 
-        val userData = UserModel(name, username, email, password, bio, toString,uid!!)
+        followingRef.set(mapOf("followingIds" to listOf<String>()))
+        followersRef.set(mapOf("followerIds" to listOf<String>()))
+
+
+        val userData = UserModel(name, username, email, password, bio, imageUrl,uid!!)
 
         userRef.child(uid!!).setValue(userData)
             .addOnSuccessListener {
 
-            SharedPref.storeData(name,email,username,bio,password,context   )
+            SharedPref.storeData(name,email,username,bio,imageUrl,context)
             }.addOnFailureListener{
 
             }

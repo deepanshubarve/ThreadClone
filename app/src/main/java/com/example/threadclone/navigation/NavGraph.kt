@@ -11,6 +11,7 @@ import com.example.threadclone.screens.AddThreads
 import com.example.threadclone.screens.BottomNav
 import com.example.threadclone.screens.Home
 import com.example.threadclone.screens.Notifications
+import com.example.threadclone.screens.OtherUsers
 import com.example.threadclone.screens.Profile
 import com.example.threadclone.screens.Register
 import com.example.threadclone.screens.Search
@@ -51,6 +52,11 @@ fun NavGraph(navController: NavHostController){
 
         composable(Routes.Register.routes){
             Register(navController)
+        }
+
+        composable(Routes.OtherUser.routes){
+            val data = it.arguments!!.getString("data")
+            OtherUsers(navController,data!!)
         }
 
     }

@@ -1,6 +1,7 @@
 package com.example.threadclone.itemView
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,6 +20,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.threadclone.model.UserModel
+import com.example.threadclone.navigation.Routes
 
 @Composable
 fun SearchItem(
@@ -27,7 +29,12 @@ fun SearchItem(
 ){
 
     Column {
-        ConstraintLayout(modifier = Modifier.padding(16.dp)) {
+        ConstraintLayout(modifier = Modifier.padding(16.dp).clickable{
+            val routes = Routes.OtherUser.routes.replace("{data}", users.uid)
+            navHostController.navigate(routes)
+        }
+
+        ) {
 
             val (userImage, userName, date, time, title, image) = createRefs()
 

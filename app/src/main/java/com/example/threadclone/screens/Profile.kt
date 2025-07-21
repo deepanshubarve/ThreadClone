@@ -60,13 +60,27 @@ fun Profile(navHostController:NavHostController){
     val userViewModel : UserViewModel = viewModel()
     val threads by userViewModel.threads.observeAsState(null)
 
+    val followerList by userViewModel.followerList.observeAsState(null)
+    val followingList by userViewModel.followingList.observeAsState(null)
+
+    var currentUserId = ""
+    if(FirebaseAuth.getInstance().currentUser != null){
+        currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
+    }
+
+    if(currentUserId != ""){
+        userViewModel.getFollowers(currentUserId)
+        userViewModel.getFollowing(currentUserId)
+    }
+
     val user = UserModel(
          name = SharedPref.getName(context),
          username = SharedPref.getUserName(context),
          imageUrl = SharedPref.getImage(context)
     )
 
-    userViewModel.fetchThreads(FirebaseAuth.getInstance().currentUser!!.uid)
+    if(firebaseUser != null)
+      userViewModel.fetchThreads(firebaseUser!!.uid)
 
     LaunchedEffect(firebaseUser) {
         if (firebaseUser == null) {
@@ -89,7 +103,7 @@ fun Profile(navHostController:NavHostController){
 
 
                 Text(text = SharedPref.getName(context), style = TextStyle(fontWeight = FontWeight.ExtraBold,
-                    fontSize = 24.sp), modifier = Modifier.constrainAs(text){
+                    fontSize = 26.sp), modifier = Modifier.constrainAs(text){
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                 }
@@ -104,29 +118,29 @@ fun Profile(navHostController:NavHostController){
                     }.size(120.dp).clip(CircleShape), contentScale = ContentScale.Crop
                 )
 
-                Text(text = SharedPref.getUserName(context), style = TextStyle(fontWeight = FontWeight.ExtraBold,
-                    fontSize = 24.sp), modifier = Modifier.constrainAs(userName){
+                Text(text = SharedPref.getUserName(context), style = TextStyle(fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp), modifier = Modifier.constrainAs(userName){
                     top.linkTo(text.bottom)
                     start.linkTo(parent.start)
                 }
                 )
 
                 Text(text = SharedPref.getBio(context), style = TextStyle(fontWeight = FontWeight.Normal,
-                    fontSize = 24.sp), modifier = Modifier.constrainAs(Bio){
+                    fontSize = 18.sp), modifier = Modifier.constrainAs(Bio){
                     top.linkTo(userName.bottom)
                     start.linkTo(parent.start)
                 }
                 )
 
-                Text(text = "0 followers", style = TextStyle(fontWeight = FontWeight.Normal,
-                    fontSize = 24.sp), modifier = Modifier.constrainAs(followers){
+                Text(text = "${followerList!!.size} followers", style = TextStyle(fontWeight = FontWeight.Normal,
+                    fontSize = 20.sp), modifier = Modifier.constrainAs(followers){
                     top.linkTo(Bio.bottom)
                     start.linkTo(parent.start)
                 }
                 )
 
-                Text(text = "0 following", style = TextStyle(fontWeight = FontWeight.Normal,
-                    fontSize = 24.sp), modifier = Modifier.constrainAs(following){
+                Text(text = "${followingList!!.size} following", style = TextStyle(fontWeight = FontWeight.Normal,
+                    fontSize = 20.sp), modifier = Modifier.constrainAs(following){
                     top.linkTo(followers.bottom)
                     start.linkTo(parent.start)
                 }
